@@ -1,17 +1,30 @@
 import express from "express";
+import path from "path";
+import { dirname } from "path";
+import { fileURLToPath } from "url";
 import { handleSave, handleExecute, handleFetch } from "./handler.js";
+import { setupDataDir } from "./disk_store.js";
+
+setupDataDir();
 
 const app = express();
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const staticFilesPath = () => {
+  return path.join(__dirname + "/../frontend/dist");
+};
+
+app.use(express.static(staticFilesPath()));
 
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
 app.get("/", (req, res) => {
-  res.send("Hello World");
+  res.sendFile(staticFilesPath() + "/index.html");
 });
 
 app.get("/:id", (req, res) => {
-  res.send("id = " + req.params.id);
+  res.sendFile(staticFilesPath() + "/index.html");
 });
 
 app.get("/fetch/:id", (req, res) => {

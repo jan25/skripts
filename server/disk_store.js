@@ -5,11 +5,18 @@ import { execute } from "./executor.js";
 const DATA_DIR = process.env.DEBUG
   ? "datastore/fs/scripts"
   : "/usr/app/datastore";
+
 const FILE_EXT = ".js";
 const ENCODING = "utf8";
 
 const writeToFile = util.promisify(fs.writeFile);
 const _readFile = util.promisify(fs.readFile);
+
+export const setupDataDir = () => {
+  fs.mkdir(DATA_DIR, { recursive: true }, (err) => {
+    if (err) throw err;
+  });
+};
 
 const fileName = (id) => {
   return `${DATA_DIR}/${id}${FILE_EXT}`;
@@ -55,13 +62,5 @@ const exec = async (id) => {
     throw error;
   }
 };
-
-// save("let i = 3; console.log(i);", "test1")
-//   .then((ok) => console.log(ok))
-//   .catch((err) => console.error(err));
-
-// exec("test1")
-//   .then((res) => console.log(res))
-//   .catch((err) => console.log(err));
 
 export { save, exec };
