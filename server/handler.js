@@ -1,4 +1,4 @@
-import { save, exec } from "./disk_store.js";
+import { save, exec, fetch } from "./disk_store.js";
 import randomstring from "randomstring";
 
 const successResult = (success, result, id, code) => {
@@ -8,6 +8,19 @@ const successResult = (success, result, id, code) => {
     id: id,
     code: code,
   };
+};
+
+export const handleFetch = async (id) => {
+  if (typeof id === "undefined") {
+    throw Error("Invalid id: " + id);
+  }
+
+  try {
+    const code = await fetch(id);
+    return successResult(true, "", id, code);
+  } catch (error) {
+    return successResult(false, error.toString(), id, "");
+  }
 };
 
 export const handleExecute = async (reqBody) => {

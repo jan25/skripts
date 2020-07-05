@@ -1,5 +1,5 @@
 import express from "express";
-import { handleSave, handleExecute } from "./handler.js";
+import { handleSave, handleExecute, handleFetch } from "./handler.js";
 
 const app = express();
 
@@ -12,6 +12,12 @@ app.get("/", (req, res) => {
 
 app.get("/:id", (req, res) => {
   res.send("id = " + req.params.id);
+});
+
+app.get("/fetch/:id", (req, res) => {
+  handleFetch(req.params.id)
+    .then((data) => res.send(data))
+    .catch((error) => res.status(500).send(error));
 });
 
 app.post("/exec", (req, res) => {

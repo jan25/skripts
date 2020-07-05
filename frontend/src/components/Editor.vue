@@ -25,17 +25,22 @@
 
 <script>
 import PrismEditor from "vue-prism-editor";
+import { fetch } from "./Api";
 
 export default {
   name: "Editor",
   components: { PrismEditor },
+  props: ["id"],
   data() {
     return {
-      code: "let i = 3;",
-      clicked: false,
+      code: "",
     };
   },
-  created() {},
+  mounted() {
+    fetch(this.id)
+      .then((code) => (this.code = code))
+      .catch((error) => console.error(error));
+  },
   methods: {
     getData() {
       return {

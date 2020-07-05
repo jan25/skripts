@@ -1,26 +1,24 @@
 import Vue from "vue";
 import App from "./App.vue";
 import VueRouter from "vue-router";
-import { BootstrapVue } from "bootstrap-vue";
 import "bootstrap/dist/css/bootstrap.css";
-import "bootstrap-vue/dist/bootstrap-vue.css";
+
+// For vue-prism-editor
 import "prismjs";
 import "prismjs/themes/prism.css";
 
 Vue.config.productionTip = false;
-Vue.use(BootstrapVue);
 
+Vue.use(VueRouter);
 const routes = [
   {
-    path: "/:id",
+    path: "/:id?",
+    name: "root",
     component: App,
   },
 ];
-const router = new VueRouter({ routes });
+const router = new VueRouter({ mode: "history", routes });
 
-// new Vue({
-//   // render: (h) => h(App),
-//   router,
-// }).$mount("#app");
+const AppWrapper = { template: "<router-view></router-view>" };
 
-new Vue({ el: "#app", router, render: (h) => h(App) });
+new Vue({ router, render: (h) => h(AppWrapper), el: "#app" });

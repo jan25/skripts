@@ -9,6 +9,7 @@ const FILE_EXT = ".js";
 const ENCODING = "utf8";
 
 const writeToFile = util.promisify(fs.writeFile);
+const _readFile = util.promisify(fs.readFile);
 
 const fileName = (id) => {
   return `${DATA_DIR}/${id}${FILE_EXT}`;
@@ -16,6 +17,14 @@ const fileName = (id) => {
 
 const validId = (id) => {
   return id.length == 6;
+};
+
+export const fetch = async (id) => {
+  try {
+    return await _readFile(fileName(id), ENCODING);
+  } catch (error) {
+    throw error;
+  }
 };
 
 const save = async (code, id) => {
