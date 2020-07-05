@@ -1,4 +1,4 @@
 .vscode/
 dist/
 node_modules/
-server/datastore/fs/scripts
+server/datastore

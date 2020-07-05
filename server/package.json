@@ -4,7 +4,7 @@
   "description": "skripts server",
   "main": "main.js",
   "scripts": {
-    "dev": "nodemon main.js --ignore datastore/fs/scripts",
+    "dev": "DEBUG=1 nodemon main.js --ignore datastore/fs/scripts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

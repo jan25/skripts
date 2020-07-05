@@ -1,4 +1,4 @@
-import { save, exec } from "./datastore/fs/fs.js";
+import { save, exec } from "./disk_store.js";
 import randomstring from "randomstring";
 
 const successResult = (success, result, id, code) => {
@@ -10,9 +10,9 @@ const successResult = (success, result, id, code) => {
   };
 };
 
-export const handleExecute = (reqBody) => {
+export const handleExecute = async (reqBody) => {
   if (!("code" in reqBody) || !("id" in reqBody)) {
-    throw new Error("Invalid request body: code or id is missing");
+    throw Error("Invalid request body: code or id is missing");
   }
 
   return _handleExecute(reqBody.code, reqBody.id);
@@ -35,10 +35,9 @@ const _handleExecute = async (code, id) => {
   }
 };
 
-export const handleSave = (reqBody) => {
-  console.log(reqBody);
+export const handleSave = async (reqBody) => {
   if (!("code" in reqBody) || !("id" in reqBody)) {
-    throw new Error("Invalid request body: code or id is missing");
+    throw Error("Invalid request body: code or id is missing");
   }
 
   return _handleSave(reqBody.code, reqBody.id);
@@ -54,7 +53,7 @@ const _handleSave = async (code, id) => {
     if (!ok) {
       return successResult(false, "Failed to save", id, code);
     }
-    return successResult(true, "saved!", id, code);
+    return successResult(true, "Saved!", id, code);
   } catch (error) {
     return successResult(false, error.toString(), id, code);
   }

@@ -1,9 +1,10 @@
 import fs from "fs";
 import util from "util";
-import { execute } from "../../executor.js";
+import { execute } from "./executor.js";
 
-// const DATA_DIR = "scripts";
-const DATA_DIR = "datastore/fs/scripts";
+const DATA_DIR = process.env.DEBUG
+  ? "datastore/fs/scripts"
+  : "/usr/app/datastore";
 const FILE_EXT = ".js";
 const ENCODING = "utf8";
 
@@ -22,11 +23,12 @@ const save = async (code, id) => {
     throw Error("Invalid Id");
   }
 
-  return await writeToFile(fileName(id), code, ENCODING)
-    .then(() => true)
-    .catch((err) => {
-      throw err;
-    });
+  try {
+    await writeToFile(fileName(id), code, ENCODING);
+    return true;
+  } catch (error) {
+    throw error;
+  }
 };
 
 const exec = async (id) => {
@@ -34,18 +36,15 @@ const exec = async (id) => {
     throw Error("Invalid Id");
   }
 
-  return execute(fileName(id))
-    .then((data) => {
-      console.log("_exec", data);
-      if (data.stderr !== undefined && data.stderr.length > 0) {
-        return new Error(data.stderr);
-      }
-
-      return data.stdout;
-    })
-    .catch((err) => {
-      throw err;
-    });
+  try {
+    const data = await execute(fileName(id));
+    if (data.stderr !== undefined && data.stderr.length > 0) {
+      throw Error(data.stderr);
+    }
+    return data.stdout;
+  } catch (error) {
+    throw error;
+  }
 };
 
 // save("let i = 3; console.log(i);", "test1")

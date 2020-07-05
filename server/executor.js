@@ -5,13 +5,15 @@ import { execFile } from "child_process";
 const _fsStats = util.promisify(fs.stat);
 const _execFile = util.promisify(execFile);
 
-export const execute = (path) => {
-  return _fsStats(path)
-    .then(() => {
+export const execute = async (path) => {
+  try {
+    const exists = await _fsStats(path);
+    if (exists) {
       return _execFile("node", [path]);
-    })
-    .catch((err) => {
-      console.log("executor", err);
-      throw err;
-    });
+    }
+
+    throw Error("File does not exist: " + path);
+  } catch (error) {
+    throw error;
+  }
 };

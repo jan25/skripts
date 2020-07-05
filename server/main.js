@@ -16,10 +16,7 @@ app.get("/:id", (req, res) => {
 
 app.post("/exec", (req, res) => {
   handleExecute(req.body)
-    .then((data) => {
-      console.log(data);
-      res.send(data);
-    })
+    .then((data) => res.send(data))
     .catch((error) => res.status(500).send(error));
 });
 
