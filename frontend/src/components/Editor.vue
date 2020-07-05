@@ -35,7 +35,7 @@ export default {
   props: ["id"],
   data() {
     return {
-      code: "console.log('Hello there!');",
+      code: DEFAULT_CODE,
     };
   },
   mounted() {
@@ -53,6 +53,16 @@ export default {
     },
   },
 };
+
+const DEFAULT_CODE = `console.log('Hello there!');
+
+let fact = 1;
+for (let i = 2; i < 10; ++i) {
+  fact *= i;
+}
+
+console.log(fact);
+`;
 </script>
 
 <style scoped>
@@ -62,7 +72,6 @@ export default {
 
 .editor-wrapper {
   height: 90%;
-  border: 1px solid #eeeeee;
 }
 
 .buttons {

@@ -23,5 +23,6 @@ export default {
 pre {
   height: 100%;
   background-color: #fafafa;
+  padding: 5px;
 }
 </style>
