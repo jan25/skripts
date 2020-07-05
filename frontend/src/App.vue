@@ -20,6 +20,7 @@ import Info, {
   ERROR,
 } from "./components/Info";
 import Output from "./components/Output";
+import { execute, save } from "./components/Api";
 
 export default {
   name: "App",
@@ -40,31 +41,38 @@ export default {
     handleRun(data) {
       console.log(data);
       this.status = RUNNING;
-      this._testApi()
-        .then(() => {
+
+      execute(data.code, this.getId())
+        .then((data) => {
           this.status = DEFAULT;
-          this.output = "Test output";
+          this.output = data.output;
+          console.log(data);
         })
-        .catch((err) => {
+        .catch((error) => {
           this.status = ERROR;
-          this.error = err;
+          this.error = error.toString();
+          console.log(error);
         });
     },
     handleSave(data) {
       console.log(data);
       this.status = SAVING;
-      this._testApi()
+
+      save(data.code, this.getId())
         .then(() => {
           this.status = SAVED;
-          this.output = "Test output";
         })
-        .catch((err) => {
+        .catch((error) => {
           this.status = ERROR;
-          this.error = err;
+          this.error = error;
         });
     },
     async _testApi() {
       return new Promise((resolve) => setTimeout(resolve, 3000));
+    },
+
+    getId() {
+      return "testid";
     },
   },
 };

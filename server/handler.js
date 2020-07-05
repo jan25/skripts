@@ -26,7 +26,7 @@ const _handleExecute = async (code, id) => {
   try {
     const ok = await save(code, id);
     if (!ok) {
-      throw new Error("failed to save code");
+      return successResult(false, "Failed to save and run", id, code);
     }
     const output = await exec(id);
     return successResult(true, output, id, code);
@@ -49,14 +49,13 @@ const _handleSave = async (code, id) => {
     id = randomstring.generate(6);
   }
 
-  return await save(code, id)
-    .then((ok) => {
-      if (!ok) {
-        return successResult(false, "Failed to save", id, code);
-      }
-      return successResult(true, "saved!", id, code);
-    })
-    .catch((error) => {
-      return successResult(false, error.toString(), id, code);
-    });
+  try {
+    const ok = await save(code, id);
+    if (!ok) {
+      return successResult(false, "Failed to save", id, code);
+    }
+    return successResult(true, "saved!", id, code);
+  } catch (error) {
+    return successResult(false, error.toString(), id, code);
+  }
 };

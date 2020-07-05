@@ -1,8 +1,8 @@
 <template>
   <div class="container">
-    <p class="text-monospace rounded-sm border border-light">
-      {{ this.output }}
-    </p>
+    <pre class="text-monospace rounded-sm border border-light">{{
+      this.output
+    }}</pre>
   </div>
 </template>
 
@@ -18,7 +18,7 @@ export default {
   height: 15%;
 }
 
-p {
+pre {
   height: 100%;
   background-color: #dddddd;
   padding: 5px;

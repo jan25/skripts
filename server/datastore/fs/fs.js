@@ -40,6 +40,7 @@ const exec = async (id) => {
 
   return _exec(id)
     .then((data) => {
+      console.log("_exec", data);
       if (data.stderr !== undefined && data.stderr.length > 0) {
         return new Error(data.stderr);
       }
