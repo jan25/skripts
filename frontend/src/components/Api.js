@@ -4,7 +4,6 @@ const TIMEOUT = 5000; // ms
 
 export const fetch = async (id) => {
   const response = await axios.get("/fetch/" + id, { timeout: TIMEOUT });
-  console.log("fetch", response);
   return response.data.code;
 };
 
@@ -21,7 +20,6 @@ export const execute = async (code, id) => {
     )
     .then((response) => {
       const data = response.data;
-      console.log(data);
       return {
         id: data.id,
         output: data.output,
@@ -44,7 +42,6 @@ export const save = async (code, id) => {
     )
     .then((response) => {
       const data = response.data;
-      console.log(data);
       if (!data.success) {
         throw new Error("Failed to save", data.output);
       }

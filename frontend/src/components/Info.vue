@@ -41,5 +41,7 @@ export default {
 <style scoped>
 .container {
   text-align: center;
+  margin-top: 2%;
+  height: 3%;
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <div class="editor overflow-auto">
-      <PrismEditor v-model="code" language="js"></PrismEditor>
+    <div class="editor-wrapper">
+      <vue-editor v-model="code" language="js"></vue-editor>
     </div>
 
     <div class="buttons d-flex flex-row justify-content-around">
@@ -24,22 +24,26 @@
 </template>
 
 <script>
-import PrismEditor from "vue-prism-editor";
+import Vue from "vue";
+import VuePrismEditor from "vue-prism-editor";
 import { fetch } from "./Api";
+
+Vue.component("vue-editor", VuePrismEditor);
 
 export default {
   name: "Editor",
-  components: { PrismEditor },
   props: ["id"],
   data() {
     return {
-      code: "",
+      code: "console.log('Hello there!');",
     };
   },
   mounted() {
-    fetch(this.id)
-      .then((code) => (this.code = code))
-      .catch((error) => console.error(error));
+    if (this.id !== null) {
+      fetch(this.id)
+        .then((code) => (this.code = code))
+        .catch((error) => console.error(error));
+    }
   },
   methods: {
     getData() {
@@ -56,11 +60,13 @@ export default {
   height: 70%;
 }
 
-.editor {
+.editor-wrapper {
   height: 90%;
+  border: 1px solid #eeeeee;
 }
 
 .buttons {
+  margin-top: 3%;
   height: 7%;
 }
 
@@ -68,11 +74,12 @@ button {
   width: 40%;
 }
 
-/* Hack to show full height editor. Failed */
-.prism-editor-wrapper {
+/* Hack to empty expand editor to parent div */
+/deep/ .prism-editor-wrapper {
   height: 100%;
 }
-pre > .prism-editor__code {
+
+/deep/ pre {
   height: 100%;
 }
 </style>

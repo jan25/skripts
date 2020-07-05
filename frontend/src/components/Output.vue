@@ -16,11 +16,12 @@ export default {
 <style scoped>
 .container {
   height: 15%;
+  border: 1px solid #eeeeee;
+  padding: 0px !important;
+  margin-right: 20px;
 }
-
 pre {
   height: 100%;
-  background-color: #dddddd;
-  padding: 5px;
+  background-color: #fafafa;
 }
 </style>
