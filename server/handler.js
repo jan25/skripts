@@ -1,37 +1,62 @@
-import { save, exec } from "./datastore/fs.js";
+import { save, exec } from "./datastore/fs/fs.js";
+import randomstring from "randomstring";
 
-const errorResult = (message) => {
-  return {
-    success: false,
-    message: `ERROR: ${message}`,
-  };
-};
-
-const successResult = (success, result) => {
+const successResult = (success, result, id, code) => {
   return {
     success: success,
     output: result,
+    id: id,
+    code: code,
   };
 };
 
-export const handleExecute = (code, id) => {
-  const ok = save(code, id);
-  if (!ok) {
-    return errorResult("failed to save code");
+export const handleExecute = (reqBody) => {
+  if (!("code" in reqBody) || !("id" in reqBody)) {
+    throw new Error("Invalid request body: code or id is missing");
+  }
+
+  return _handleExecute(reqBody.code, reqBody.id);
+};
+
+const _handleExecute = async (code, id) => {
+  if (id === null) {
+    id = randomstring.generate(6);
   }
 
   try {
-    const result = exec(id);
-    return successResult(true, result);
-  } catch (err) {
-    return successResult(false, err);
+    const ok = await save(code, id);
+    if (!ok) {
+      throw new Error("failed to save code");
+    }
+    const output = await exec(id);
+    return successResult(true, output, id, code);
+  } catch (error) {
+    return successResult(false, error.toString(), id, code);
   }
 };
 
-export const handleSave = (code, id) => {
-  const ok = save(code, id);
-  if (!ok) {
-    return errorResult("failed to save code");
+export const handleSave = (reqBody) => {
+  console.log(reqBody);
+  if (!("code" in reqBody) || !("id" in reqBody)) {
+    throw new Error("Invalid request body: code or id is missing");
   }
-  return ok;
+
+  return _handleSave(reqBody.code, reqBody.id);
+};
+
+const _handleSave = async (code, id) => {
+  if (id === null) {
+    id = randomstring.generate(6);
+  }
+
+  return await save(code, id)
+    .then((ok) => {
+      if (!ok) {
+        return successResult(false, "Failed to save", id, code);
+      }
+      return successResult(true, "saved!", id, code);
+    })
+    .catch((error) => {
+      return successResult(false, error.toString(), id, code);
+    });
 };

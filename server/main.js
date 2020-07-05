@@ -15,13 +15,15 @@ app.get("/:id", (req, res) => {
 });
 
 app.post("/exec", (req, res) => {
-  const result = handleExecute(req.body);
-  res.send(result);
+  handleExecute(req.body)
+    .then((data) => res.send(data))
+    .catch((error) => res.status(500).send(error));
 });
 
 app.post("/save", (req, res) => {
-  const result = handleSave(req.body);
-  res.send(result);
+  handleSave(req.body)
+    .then((data) => res.send(data))
+    .catch((error) => res.status(500).send(error));
 });
 
 app.listen(3000);

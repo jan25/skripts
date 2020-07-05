@@ -1,1 +1,0 @@
-let i = 3; console.log(`hello ${i}`)
