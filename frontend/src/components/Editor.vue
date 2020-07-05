@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="editor">
+    <div class="editor overflow-auto">
       <PrismEditor v-model="code" language="js"></PrismEditor>
     </div>
 
@@ -53,6 +53,10 @@ export default {
 
 .editor {
   height: 90%;
+}
+
+.buttons {
+  height: 7%;
 }
 
 button {

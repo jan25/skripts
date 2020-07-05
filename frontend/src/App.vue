@@ -10,6 +10,7 @@
 </template>
 
 <script>
+// import router from "vue-router";
 import Header from "./components/Header";
 import Editor from "./components/Editor";
 import Info, {
@@ -37,12 +38,17 @@ export default {
       output: "",
     };
   },
+  computed: {
+    id() {
+      return this.$route.params.id;
+    },
+  },
   methods: {
     handleRun(data) {
       console.log(data);
       this.status = RUNNING;
 
-      execute(data.code, this.getId())
+      execute(data.code, this.id)
         .then((data) => {
           this.status = DEFAULT;
           this.output = data.output;
@@ -58,7 +64,7 @@ export default {
       console.log(data);
       this.status = SAVING;
 
-      save(data.code, this.getId())
+      save(data.code, this.id)
         .then(() => {
           this.status = SAVED;
         })
@@ -66,13 +72,6 @@ export default {
           this.status = ERROR;
           this.error = error;
         });
-    },
-    async _testApi() {
-      return new Promise((resolve) => setTimeout(resolve, 3000));
-    },
-
-    getId() {
-      return "testid";
     },
   },
 };

@@ -1,7 +1,5 @@
 <template>
-  <div>
-    Skripts
-  </div>
+  <h3>Skripts</h3>
 </template>
 
 <script>
@@ -11,8 +9,9 @@ export default {
 </script>
 
 <style scoped>
-div {
+h3 {
   height: 5%;
   text-align: center;
+  margin-top: 3%;
 }
 </style>
