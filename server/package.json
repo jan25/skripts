@@ -9,7 +9,10 @@
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {},
+  "dependencies": {
+    "express": "^4.17.1",
+    "randomstring": "^1.1.5"
+  },
   "type": "module",
   "devDependencies": {
     "nodemon": "^2.0.4"
