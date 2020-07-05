@@ -9,7 +9,7 @@ docker container.
 
 Clone this repository locally and choose one of options below to run or develop. Make sure to have `node` and `npm` installed before proceeding.
 
-To develop with hot reload use vue dev server in frontend and nodemon server for backend. Start frontend and backend seperately:
+To develop with hot reload use vue dev server for frontend and nodemon server for backend. Start frontend and backend seperately:
 
 ```sh
 cd /frontend
@@ -42,10 +42,15 @@ docker build -t skripts .
 docker run --rm -p 3000:3000 -d skripts:latest
 ```
 
-## Features
-
 ## Limitations
 
-## Credits
+- Current implementation uses on-disk storage in backend. So unique script URLs will function correctly only with single instance of server. This may also impose a memory contraint on server
+- No custom node dependencies can be used in scripts
+- Script runtime cannot exceed 5secs
 
 ## Coming up..
+
+- Improved UI(styling)
+- Support persistant datastore and make multiple server instances possible
+- Support for using custom node dependencies (e.g. axios)
+- Build slimmer docker images
