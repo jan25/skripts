@@ -5,6 +5,8 @@ A simple web application for writing, running your JS scripts in a web browser. 
 This application has backend and frontend parts which can be deployed on a physical server or a
 docker container.
 
+![](assets/demo.png)
+
 ## Develop or Run
 
 Clone this repository locally and choose one of options below to run or develop. Make sure to have `node` and `npm` installed before proceeding.
